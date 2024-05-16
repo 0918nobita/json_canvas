@@ -1,0 +1,17 @@
+name = "json_canvas"
+version = "0.1.0"
+
+licenses = ["MIT"]
+description = "JSON Canvas library for Gleam"
+
+[repository]
+type = "github"
+user = "0918nobita"
+repo = "json_canvas"
+
+[dependencies]
+gleam_stdlib = ">= 0.34.0 and < 2.0.0"
+gleam_json = ">= 1.0.1 and < 2.0.0"
+
+[dev-dependencies]
+gleeunit = ">= 1.0.0 and < 2.0.0"
