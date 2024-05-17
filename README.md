@@ -7,13 +7,13 @@
 
 JSON Canvas library for Gleam
 
-<!--
 ## Installation
 
 ```sh
 gleam add json_canvas
 ```
 
+<!--
 ```gleam
 import json_canvas
 
