@@ -1,33 +1,32 @@
 import gleam/dynamic as dyn
-import gleam/option.{type Option}
+import gleam/option
 import gleam/result
 
-import json_canvas/edge/endpoint_shape.{
-  type EndpointShape, WithArrow, WithoutArrow, decode_endpoint_shape,
-}
-import json_canvas/edge/side.{type Side, decode_side}
-import json_canvas/types.{type Color, type NodeId, Color, NodeId}
-
-pub type EdgeId {
-  EdgeId(String)
+import json_canvas/types.{
+  type Edge, type EndpointShape, type Side, Bottom, Color, Edge, EdgeId,
+  EdgeLabel, Left, NodeId, Right, Top, WithArrow, WithoutArrow,
 }
 
-pub type EdgeLabel {
-  EdgeLabel(String)
+pub fn decode_side(dyn: dyn.Dynamic) -> Result(Side, List(dyn.DecodeError)) {
+  use side <- result.try(dyn.string(dyn))
+  case side {
+    "top" -> Ok(Top)
+    "right" -> Ok(Right)
+    "bottom" -> Ok(Bottom)
+    "left" -> Ok(Left)
+    _ -> Error([dyn.DecodeError("top, right, bottom or left", side, [])])
+  }
 }
 
-pub type Edge {
-  Edge(
-    id: EdgeId,
-    from_node: NodeId,
-    from_side: Option(Side),
-    from_end: EndpointShape,
-    to_node: NodeId,
-    to_side: Option(Side),
-    to_end: EndpointShape,
-    color: Option(Color),
-    label: Option(EdgeLabel),
-  )
+pub fn decode_endpoint_shape(
+  dyn: dyn.Dynamic,
+) -> Result(EndpointShape, List(dyn.DecodeError)) {
+  use shape <- result.try(dyn.string(dyn))
+  case shape {
+    "none" -> Ok(WithoutArrow)
+    "arrow" -> Ok(WithArrow)
+    _ -> Error([dyn.DecodeError("none or arrow", shape, [])])
+  }
 }
 
 pub fn decode_edge(dyn: dyn.Dynamic) -> Result(Edge, List(dyn.DecodeError)) {

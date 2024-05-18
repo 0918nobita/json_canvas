@@ -1,12 +1,30 @@
-import gleam/dynamic as dyn
+import gleam/dynamic.{type Dynamic} as dyn
 import gleam/option.{type Option}
 import gleam/result
 
-import json_canvas/internal/node_type.{type NodeType, decode_node_type}
 import json_canvas/types.{type Color, type NodeId, Color, NodeId}
 
-pub type GenericNodeAttrs {
-  GenericNodeAttrs(
+pub type NodeType {
+  TextNodeType
+  FileNodeType
+  LinkNodeType
+  GroupNodeType
+}
+
+pub fn decode_node_type(dyn: Dynamic) -> Result(NodeType, List(dyn.DecodeError)) {
+  use ty <- result.try(dyn.string(dyn))
+
+  case ty {
+    "text" -> Ok(TextNodeType)
+    "file" -> Ok(FileNodeType)
+    "link" -> Ok(LinkNodeType)
+    "group" -> Ok(GroupNodeType)
+    _ -> Error([dyn.DecodeError("text, file, link or group", ty, [])])
+  }
+}
+
+pub type GenericNode {
+  GenericNode(
     id: NodeId,
     ty: NodeType,
     x: Int,
@@ -17,12 +35,12 @@ pub type GenericNodeAttrs {
   )
 }
 
-pub fn decode_node_attrs(
-  dyn: dyn.Dynamic,
-) -> Result(GenericNodeAttrs, List(dyn.DecodeError)) {
+pub fn decode_generic_node(
+  dyn: Dynamic,
+) -> Result(GenericNode, List(dyn.DecodeError)) {
   dyn
   |> dyn.decode7(
-    GenericNodeAttrs,
+    GenericNode,
     dyn.field("id", fn(dyn) {
       dyn
       |> dyn.string
