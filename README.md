@@ -5,6 +5,8 @@
 
 JSON Canvas library for Gleam
 
+For more information about JSON Canvas, please refer to <https://jsoncanvas.org/>.
+
 ## Installation
 
 ```sh
@@ -21,14 +23,21 @@ import json_canvas
 import simplifile
 
 pub fn main() {
-  let assert Ok(content) = simplifile.read("input.canvas")
+  let assert Ok(content) = simplifile.read(from: "input.canvas")
+
+  // Decode a JSON Canvas from a JSON string
   let assert Ok(canvas) = json_canvas.decode(content)
 
   let nodes = canvas.nodes
   let edges = canvas.edges
 
-  io.println("Nodes count: " <> int.to_string(list.length(nodes)))
-  io.println("Edges count: " <> int.to_string(list.length(edges)))
+  io.println("Node count: " <> int.to_string(list.length(nodes)))
+  io.println("Edge count: " <> int.to_string(list.length(edges)))
+
+  // Encode a JSON Canvas into a JSON string
+  canvas
+  |> json_canvas.to_string
+  |> simplifile.write(to: "output.canvas")
 }
 ```
 
