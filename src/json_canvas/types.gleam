@@ -4,30 +4,6 @@ pub type NodeId {
   NodeId(String)
 }
 
-pub type Color {
-  Color(String)
-}
-
-pub type FilePath {
-  FilePath(String)
-}
-
-pub type Subpath {
-  Subpath(String)
-}
-
-pub type Url {
-  Url(String)
-}
-
-pub type GroupLabel {
-  GroupLabel(String)
-}
-
-pub type GroupBackground {
-  GroupBackground(String)
-}
-
 pub type GroupBackgroundStyle {
   Cover
   Ratio
@@ -41,7 +17,7 @@ pub type Node {
     y: Int,
     width: Int,
     height: Int,
-    color: Option(Color),
+    color: Option(String),
     text: String,
   )
   FileNode(
@@ -50,9 +26,9 @@ pub type Node {
     y: Int,
     width: Int,
     height: Int,
-    color: Option(Color),
-    path: FilePath,
-    subpath: Option(Subpath),
+    color: Option(String),
+    path: String,
+    subpath: Option(String),
   )
   LinkNode(
     id: NodeId,
@@ -60,8 +36,8 @@ pub type Node {
     y: Int,
     width: Int,
     height: Int,
-    color: Option(Color),
-    url: Url,
+    color: Option(String),
+    url: String,
   )
   GroupNode(
     id: NodeId,
@@ -69,9 +45,9 @@ pub type Node {
     y: Int,
     width: Int,
     height: Int,
-    color: Option(Color),
-    label: Option(GroupLabel),
-    background: Option(GroupBackground),
+    color: Option(String),
+    label: Option(String),
+    background: Option(String),
     background_style: Option(GroupBackgroundStyle),
   )
 }
@@ -92,10 +68,6 @@ pub type EndpointShape {
   WithoutArrow
 }
 
-pub type EdgeLabel {
-  EdgeLabel(String)
-}
-
 pub type Edge {
   Edge(
     id: EdgeId,
@@ -105,8 +77,8 @@ pub type Edge {
     to_node: NodeId,
     to_side: Option(Side),
     to_end: EndpointShape,
-    color: Option(Color),
-    label: Option(EdgeLabel),
+    color: Option(String),
+    label: Option(String),
   )
 }
 

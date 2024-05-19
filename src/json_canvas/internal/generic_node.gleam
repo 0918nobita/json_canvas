@@ -2,7 +2,7 @@ import gleam/dynamic.{type Dynamic} as dyn
 import gleam/option.{type Option}
 import gleam/result
 
-import json_canvas/types.{type Color, type NodeId, Color, NodeId}
+import json_canvas/types.{type NodeId, NodeId}
 
 pub type NodeType {
   TextNodeType
@@ -31,7 +31,7 @@ pub type GenericNode {
     y: Int,
     width: Int,
     height: Int,
-    color: Option(Color),
+    color: Option(String),
   )
 }
 
@@ -51,10 +51,6 @@ pub fn decode_generic_node(
     dyn.field("y", dyn.int),
     dyn.field("width", dyn.int),
     dyn.field("height", dyn.int),
-    dyn.optional_field("color", fn(dyn) {
-      dyn
-      |> dyn.string
-      |> result.map(Color)
-    }),
+    dyn.optional_field("color", dyn.string),
   )
 }

@@ -1,8 +1,7 @@
 import gleam/dynamic as dyn
-import gleam/option
 import gleam/result
 
-import json_canvas/internal/node as internal
+import json_canvas/internal/generic_node.{decode_generic_node}
 import json_canvas/types
 
 pub fn decode_group_background_style(
@@ -21,10 +20,10 @@ pub fn decode_group_background_style(
 pub fn decode_node(
   dyn: dyn.Dynamic,
 ) -> Result(types.Node, List(dyn.DecodeError)) {
-  use node <- result.try(internal.decode_generic_node(dyn))
+  use node <- result.try(decode_generic_node(dyn))
 
   case node.ty {
-    internal.TextNodeType -> {
+    generic_node.TextNodeType -> {
       use text <- result.try(dyn.field("text", dyn.string)(dyn))
 
       Ok(types.TextNode(
@@ -37,7 +36,7 @@ pub fn decode_node(
         text,
       ))
     }
-    internal.FileNodeType -> {
+    generic_node.FileNodeType -> {
       use #(path, subpath) <- result.try(
         dyn
         |> dyn.decode2(
@@ -54,11 +53,11 @@ pub fn decode_node(
         node.width,
         node.height,
         node.color,
-        types.FilePath(path),
-        option.map(over: subpath, with: types.Subpath),
+        path,
+        subpath,
       ))
     }
-    internal.LinkNodeType -> {
+    generic_node.LinkNodeType -> {
       use url <- result.try(dyn.field("url", dyn.string)(dyn))
 
       Ok(types.LinkNode(
@@ -68,10 +67,10 @@ pub fn decode_node(
         node.width,
         node.height,
         node.color,
-        types.Url(url),
+        url,
       ))
     }
-    internal.GroupNodeType -> {
+    generic_node.GroupNodeType -> {
       use #(label, background, background_style) <- result.try(
         dyn
         |> dyn.decode3(
@@ -91,8 +90,8 @@ pub fn decode_node(
         node.width,
         node.height,
         node.color,
-        option.map(over: label, with: types.GroupLabel),
-        option.map(over: background, with: types.GroupBackground),
+        label,
+        background,
         background_style,
       ))
     }

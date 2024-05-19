@@ -1,9 +1,9 @@
 import gleam/json
 import gleam/string_builder
 
-import json_canvas/decode/canvas.{decode_canvas}
-import json_canvas/encode/edge.{encode_edge}
-import json_canvas/encode/node.{encode_node}
+import json_canvas/internal/decode/canvas.{decode_canvas}
+import json_canvas/internal/encode/edge.{encode_edge}
+import json_canvas/internal/encode/node.{encode_node}
 import json_canvas/types.{type Canvas}
 
 /// Decode a JSON Canvas string representation into a `Canvas` value.

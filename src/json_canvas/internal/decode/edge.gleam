@@ -61,15 +61,7 @@ pub fn decode_edge(
       |> dyn.optional_field("toEnd", decode_endpoint_shape)
       |> result.map(option.unwrap(_, or: WithArrow))
     },
-    dyn.optional_field("color", fn(dyn) {
-      dyn
-      |> dyn.string
-      |> result.map(types.Color)
-    }),
-    dyn.optional_field("label", fn(dyn) {
-      dyn
-      |> dyn.string
-      |> result.map(types.EdgeLabel)
-    }),
+    dyn.optional_field("color", dyn.string),
+    dyn.optional_field("label", dyn.string),
   )
 }
