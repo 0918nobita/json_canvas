@@ -1,5 +1,5 @@
 name = "json_canvas"
-version = "0.4.0"
+version = "0.5.0"
 
 licenses = ["MIT"]
 description = "JSON Canvas library for Gleam"
